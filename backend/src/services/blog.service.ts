@@ -59,6 +59,23 @@ const blogInclude = {
   },
 } satisfies Prisma.BlogPostInclude;
 
+// List cards do not need the post body or nested related posts.
+// The full include turns one list into dozens of Tokyo round-trips.
+const blogCardInclude = {
+  author: blogInclude.author,
+  category: blogInclude.category,
+  tags: blogInclude.tags,
+} satisfies Prisma.BlogPostInclude;
+
+let lastScheduledPublishAt = 0;
+
+async function publishDueScheduledPostsIfStale() {
+  const now = Date.now();
+  if (now - lastScheduledPublishAt < 60_000) return;
+  lastScheduledPublishAt = now;
+  await publishDueScheduledPosts();
+}
+
 async function uniqueBlogSlug(base: string, excludeId?: string, strict = false) {
   let candidate = slugify(base) || "post";
 
@@ -187,8 +204,6 @@ export async function listPublicBlogs(query: {
   category?: string;
   tag?: string;
 }) {
-  await publishDueScheduledPosts();
-
   const where: Prisma.BlogPostWhereInput = {
     ...publicWhere(),
     ...(query.search
@@ -207,7 +222,7 @@ export async function listPublicBlogs(query: {
     prisma.blogPost.count({ where }),
     prisma.blogPost.findMany({
       where,
-      include: blogInclude,
+      include: blogCardInclude,
       orderBy: { publishedAt: "desc" },
       skip: (query.page - 1) * query.limit,
       take: query.limit,
@@ -228,8 +243,6 @@ export async function listPublicBlogs(query: {
 }
 
 export async function getPublicBlogBySlug(slug: string) {
-  await publishDueScheduledPosts();
-
   const blog = await prisma.blogPost.findFirst({
     where: {
       slug,
@@ -249,7 +262,7 @@ export async function getRelatedPublicBlogs(blogId: string, categoryId?: string 
   const related = await prisma.blogRelation.findMany({
     where: { fromBlogId: blogId },
     include: {
-      toBlog: { include: blogInclude },
+      toBlog: { include: blogCardInclude },
     },
     take: 6,
   });
@@ -276,7 +289,7 @@ export async function getRelatedPublicBlogs(blogId: string, categoryId?: string 
       id: { not: blogId },
       ...(categoryId ? { categoryId } : {}),
     },
-    include: blogInclude,
+    include: blogCardInclude,
     orderBy: { publishedAt: "desc" },
     take: 6,
   });
@@ -298,7 +311,7 @@ export async function listAdminBlogs(query: {
   from?: string;
   to?: string;
 }) {
-  await publishDueScheduledPosts();
+  await publishDueScheduledPostsIfStale();
 
   const where: Prisma.BlogPostWhereInput = {
     ...(query.status ? { status: query.status } : {}),
@@ -336,7 +349,7 @@ export async function listAdminBlogs(query: {
     prisma.blogPost.count({ where }),
     prisma.blogPost.findMany({
       where,
-      include: blogInclude,
+      include: blogCardInclude,
       orderBy,
       skip: (query.page - 1) * query.limit,
       take: query.limit,
@@ -357,7 +370,7 @@ export async function listAdminBlogs(query: {
 }
 
 export async function getAdminBlogById(id: string) {
-  await publishDueScheduledPosts();
+  await publishDueScheduledPostsIfStale();
 
   const blog = await prisma.blogPost.findUnique({
     where: { id },
@@ -776,7 +789,7 @@ export async function publishDueScheduledPosts() {
 }
 
 export async function getDashboardStats() {
-  await publishDueScheduledPosts();
+  await publishDueScheduledPostsIfStale();
 
   const [total, published, drafts, scheduled, recent] = await Promise.all([
     prisma.blogPost.count(),

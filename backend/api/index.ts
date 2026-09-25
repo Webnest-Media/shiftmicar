@@ -49,6 +49,11 @@ export default async function handler(req: Request, res: Response) {
     req.url = matched;
   }
 
-  await ensureAdmin();
+  // Password check is slow (bcrypt) and only needed for sign-in.
+  // Do not block public pages on it.
+  const path = req.url || "";
+  if (path.includes("/api/auth/login")) {
+    await ensureAdmin();
+  }
   return app(req, res);
 }
