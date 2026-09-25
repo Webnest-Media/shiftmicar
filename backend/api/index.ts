@@ -20,5 +20,12 @@ export default function handler(req: Request, res: Response) {
       hint: "Make sure DATABASE_URL and JWT_SECRET are set in Vercel Project Settings > Environment Variables.",
     });
   }
+
+  // Restore the original URL when Vercel rewrites to /api/index.js
+  const matched = (req.headers["x-matched-path"] as string) || (req as any).originalUrl;
+  if (matched && req.url && (req.url.startsWith("/api/index") || req.url === "/api")) {
+    req.url = matched;
+  }
+
   return app(req, res);
 }
