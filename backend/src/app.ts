@@ -32,8 +32,8 @@ export function createApp() {
     env.FRONTEND_URL,
     "http://localhost:3000",
     "http://127.0.0.1:3000",
-    "https://shiftmycar.in",
-    "https://www.shiftmycar.in",
+    "https://shiftmycar.co.in",
+    "https://www.shiftmycar.co.in",
     "https://shiftmicar.vercel.app",
   ]
     .filter(Boolean)
@@ -52,6 +52,7 @@ export function createApp() {
         allowedOrigins.includes(normalized) ||
         /^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(origin) ||
         normalized.endsWith(".vercel.app") ||
+        normalized.endsWith("shiftmycar.co.in") ||
         normalized.endsWith("shiftmycar.in");
 
       callback(null, isAllowed);
