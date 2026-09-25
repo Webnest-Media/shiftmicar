@@ -1,0 +1,5 @@
+import { ServiceEditor } from "@/components/admin/service-editor";
+
+export default function NewServicePage() {
+  return <ServiceEditor mode="create" />;
+}

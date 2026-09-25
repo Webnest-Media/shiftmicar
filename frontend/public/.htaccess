@@ -1,0 +1,69 @@
+# ============================================================
+#  ShiftMyCar – Hostinger .htaccess
+#  Upload this file to public_html/ on Hostinger
+#  It enables clean URLs for the Next.js static export
+# ============================================================
+
+# Enable URL rewriting
+Options -MultiViews
+RewriteEngine On
+
+# ── Security headers ─────────────────────────────────────────
+Header always set X-Content-Type-Options "nosniff"
+Header always set X-Frame-Options "SAMEORIGIN"
+Header always set X-XSS-Protection "1; mode=block"
+Header always set Referrer-Policy "strict-origin-when-cross-origin"
+
+# ── Force HTTPS ───────────────────────────────────────────────
+RewriteCond %{HTTPS} off
+RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# ── www redirect (remove or invert if you prefer non-www) ────
+# RewriteCond %{HTTP_HOST} !^www\. [NC]
+# RewriteRule ^(.*)$ https://www.%{HTTP_HOST}/$1 [R=301,L]
+
+# ── Serve pre-rendered HTML pages ────────────────────────────
+# Next.js static export generates /about.html, /contact.html etc.
+# These rules serve them without the .html extension.
+
+# If the exact file exists, serve it directly
+RewriteCond %{REQUEST_FILENAME} -f
+RewriteRule ^ - [L]
+
+# If the exact directory exists, serve it
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# Try /page.html for /page (clean URLs)
+RewriteCond %{REQUEST_FILENAME}.html -f
+RewriteRule ^(.+?)/?$ $1.html [L]
+
+# Try /page/index.html for /page/
+RewriteCond %{DOCUMENT_ROOT}%{REQUEST_URI}/index.html -f
+RewriteRule ^(.+?)/?$ $1/index.html [L]
+
+# ── Cache static assets ───────────────────────────────────────
+<FilesMatch "\.(css|js|woff2?|ttf|eot|svg|png|jpg|jpeg|gif|ico|webp)$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+</FilesMatch>
+
+# env.js must NOT be cached so URL changes take effect immediately
+<Files "env.js">
+    Header set Cache-Control "no-cache, no-store, must-revalidate"
+    Header set Pragma "no-cache"
+    Header set Expires "0"
+</Files>
+
+# HTML pages: short cache
+<FilesMatch "\.(html)$">
+    Header set Cache-Control "public, max-age=3600"
+</FilesMatch>
+
+# ── Gzip compression ─────────────────────────────────────────
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/css application/javascript application/json
+    AddOutputFilterByType DEFLATE image/svg+xml text/xml text/plain
+</IfModule>
+
+# ── 404 fallback ─────────────────────────────────────────────
+ErrorDocument 404 /404.html

@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 170 44" fill="none" class="w-auto h-8 text-foreground">
+  <!-- Lamborghini Shield -->
+  <path d="M10 9L23 5L36 9V24C36 29 23 37 23 37C23 37 10 29 10 24V9Z" stroke="currentColor" stroke-width="2" fill="currentColor" fill-opacity="0.08"/>
+  <!-- Bull silhouette -->
+  <path d="M17 19C18.5 17 21 16 23 16C25.5 16 27.5 17.5 28.5 19.5C29 18.5 30 18 31 18C30 19 29.5 20.5 28.5 21.5C27 23 25 24 23 24C21 24 19 23 17 21C16.5 20 16 19.5 17 19Z" fill="currentColor"/>
+  <!-- Wordmark -->
+  <text x="46" y="27" font-family="'DM Sans', system-ui, sans-serif" font-size="12.5" font-weight="700" letter-spacing="2" fill="currentColor">LAMBORGHINI</text>
+</svg>

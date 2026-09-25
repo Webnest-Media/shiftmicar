@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 170 44" fill="none" class="w-auto h-8 text-foreground">
+  <!-- Maruti Suzuki 'S' Emblem -->
+  <g transform="translate(6, 9) scale(0.95)" fill="currentColor">
+    <!-- Top sharp arm -->
+    <path d="M4 0L24 0L14 11L4 11L14 0Z"/>
+    <!-- Central diagonal slash -->
+    <path d="M12 8L24 8L16 19L4 19L12 8Z"/>
+    <!-- Bottom sharp arm -->
+    <path d="M4 16L14 16L24 27L4 27L14 16Z"/>
+  </g>
+  <!-- Wordmark -->
+  <text x="36" y="22" font-family="'DM Sans', system-ui, -apple-system, sans-serif" font-size="10.5" font-weight="700" letter-spacing="1.5" fill="currentColor">MARUTI</text>
+  <text x="36" y="33" font-family="'DM Sans', system-ui, -apple-system, sans-serif" font-size="11" font-weight="800" letter-spacing="2.2" fill="currentColor">SUZUKI</text>
+</svg>

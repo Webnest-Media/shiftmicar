@@ -1,0 +1,337 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+enum Role {
+  ADMIN
+  EDITOR
+}
+
+enum BlogStatus {
+  DRAFT
+  PUBLISHED
+  SCHEDULED
+}
+
+enum SeoHealth {
+  GOOD
+  NEEDS_ATTENTION
+  INCOMPLETE
+}
+
+model User {
+  id           String     @id @default(cuid())
+  name         String
+  email        String     @unique
+  passwordHash String
+  role         Role       @default(EDITOR)
+  bio          String?
+  avatarUrl    String?
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+  blogs        BlogPost[]
+  revisions    BlogRevision[]
+
+  @@index([email])
+  @@map("users")
+}
+
+model Category {
+  id          String     @id @default(cuid())
+  name        String
+  slug        String     @unique
+  description String?
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  blogs       BlogPost[]
+
+  @@index([slug])
+  @@map("categories")
+}
+
+model Tag {
+  id        String    @id @default(cuid())
+  name      String
+  slug      String    @unique
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  blogs     BlogTag[]
+
+  @@index([slug])
+  @@map("tags")
+}
+
+model Media {
+  id        String   @id @default(cuid())
+  url       String
+  filename  String
+  mimeType  String
+  size      Int
+  alt       String?
+  createdAt DateTime @default(now())
+
+  @@map("media")
+}
+
+model BlogPost {
+  id               String     @id @default(cuid())
+  title            String
+  slug             String     @unique
+  excerpt          String?
+  content          String     @default("")
+  contentJson      Json?
+  featuredImage    String?
+  featuredImageAlt String?
+  status           BlogStatus @default(DRAFT)
+  publishedAt      DateTime?
+  scheduledAt      DateTime?
+  authorId         String
+  authorName       String?
+  authorBio        String?
+  categoryId       String?
+
+  focusKeyword      String?
+  secondaryKeywords String[]  @default([])
+  metaTitle         String?
+  metaDescription   String?
+  canonicalUrl      String?
+  robotsIndex       Boolean   @default(true)
+  robotsFollow      Boolean   @default(true)
+  ogTitle           String?
+  ogDescription     String?
+  ogImage           String?
+  twitterTitle      String?
+  twitterDescription String?
+  twitterImage      String?
+  faqItems          Json?
+  seoHealth         SeoHealth @default(INCOMPLETE)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  author         User              @relation(fields: [authorId], references: [id], onDelete: Restrict)
+  category       Category?         @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  tags           BlogTag[]
+  relatedFrom    BlogRelation[]    @relation("BlogRelationFrom")
+  relatedTo      BlogRelation[]    @relation("BlogRelationTo")
+  revisions      BlogRevision[]
+
+  @@index([slug])
+  @@index([status])
+  @@index([publishedAt])
+  @@index([categoryId])
+  @@index([authorId])
+  @@index([scheduledAt])
+  @@index([seoHealth])
+  @@map("blog_posts")
+}
+
+model BlogTag {
+  blogId String
+  tagId  String
+
+  blog BlogPost @relation(fields: [blogId], references: [id], onDelete: Cascade)
+  tag  Tag      @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@id([blogId, tagId])
+  @@index([tagId])
+  @@map("blog_tags")
+}
+
+model BlogRelation {
+  fromBlogId String
+  toBlogId   String
+
+  fromBlog BlogPost @relation("BlogRelationFrom", fields: [fromBlogId], references: [id], onDelete: Cascade)
+  toBlog   BlogPost @relation("BlogRelationTo", fields: [toBlogId], references: [id], onDelete: Cascade)
+
+  @@id([fromBlogId, toBlogId])
+  @@index([toBlogId])
+  @@map("blog_relations")
+}
+
+model BlogRevision {
+  id        String   @id @default(cuid())
+  blogId    String
+  editorId  String?
+  title     String
+  slug      String
+  excerpt   String?
+  content   String
+  contentJson Json?
+  seoSnapshot Json?
+  createdAt DateTime @default(now())
+
+  blog   BlogPost @relation(fields: [blogId], references: [id], onDelete: Cascade)
+  editor User?    @relation(fields: [editorId], references: [id], onDelete: SetNull)
+
+  @@index([blogId, createdAt])
+  @@map("blog_revisions")
+}
+
+model Redirect {
+  id         String   @id @default(cuid())
+  fromPath   String   @unique
+  toPath     String
+  statusCode Int      @default(301)
+  createdAt  DateTime @default(now())
+
+  @@index([fromPath])
+  @@map("redirects")
+}
+
+model Testimonial {
+  id        String   @id @default(cuid())
+  name      String
+  role      String
+  quote     String
+  logo      String?
+  rating    Int      @default(5)
+  order     Int      @default(0)
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([isActive])
+  @@index([order])
+  @@map("testimonials")
+}
+
+model Partner {
+  id            String   @id @default(cuid())
+  name          String
+  logo          String
+  alt           String?
+  order         Int      @default(0)
+  isActive      Boolean  @default(true)
+  widthDesktop  Int?     @default(140)
+  heightDesktop Int?     @default(40)
+  widthMobile   Int?     @default(100)
+  heightMobile  Int?     @default(28)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@index([isActive])
+  @@index([order])
+  @@map("partners")
+}
+
+model Service {
+  id               String    @id @default(cuid())
+  slug             String    @unique
+  index            String    @default("01")
+  title            String
+  shortDescription String
+  image            String
+  alt              String
+  overview         String[]  @default([])
+  features         Json      @default("[]")
+  isActive         Boolean   @default(true)
+  order            Int       @default(0)
+
+  focusKeyword       String?
+  secondaryKeywords  String[]  @default([])
+  metaTitle          String?
+  metaDescription    String?
+  canonicalUrl       String?
+  robotsIndex        Boolean   @default(true)
+  robotsFollow       Boolean   @default(true)
+  ogTitle            String?
+  ogDescription      String?
+  ogImage            String?
+  twitterTitle       String?
+  twitterDescription String?
+  twitterImage       String?
+  faqItems           Json?
+  seoHealth          SeoHealth @default(INCOMPLETE)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([slug])
+  @@index([isActive])
+  @@map("services")
+}
+
+model Route {
+  id                String    @id @default(cuid())
+  slug              String    @unique
+  number            String    @default("01")
+  origin            String
+  destination       String
+  title             String
+  description       String
+  detailDescription String
+  image             String
+  alt               String
+  originLat         Float     @default(28.6139)
+  originLng         Float     @default(77.2090)
+  destinationLat    Float?
+  destinationLng    Float?
+  distanceKm        Int?      @default(0)
+  transitDays       String?   @default("3-5 Days")
+  highlights        String[]  @default([])
+  isPanIndia        Boolean   @default(false)
+  featured          Boolean   @default(false)
+  isActive          Boolean   @default(true)
+  order             Int       @default(0)
+
+  focusKeyword       String?
+  secondaryKeywords  String[]  @default([])
+  metaTitle          String?
+  metaDescription    String?
+  canonicalUrl       String?
+  robotsIndex        Boolean   @default(true)
+  robotsFollow       Boolean   @default(true)
+  ogTitle            String?
+  ogDescription      String?
+  ogImage            String?
+  twitterTitle       String?
+  twitterDescription String?
+  twitterImage       String?
+  faqItems           Json?
+  seoHealth          SeoHealth @default(INCOMPLETE)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([slug])
+  @@index([featured])
+  @@index([isActive])
+  @@map("routes")
+}
+
+model PageSeo {
+  id                 String    @id @default(cuid())
+  pagePath           String    @unique
+  pageName           String
+  focusKeyword       String?
+  secondaryKeywords  String[]  @default([])
+  metaTitle          String?
+  metaDescription    String?
+  canonicalUrl       String?
+  robotsIndex        Boolean   @default(true)
+  robotsFollow       Boolean   @default(true)
+  ogTitle            String?
+  ogDescription      String?
+  ogImage            String?
+  twitterTitle       String?
+  twitterDescription String?
+  twitterImage       String?
+  faqItems           Json?
+  seoHealth          SeoHealth @default(INCOMPLETE)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([pagePath])
+  @@map("page_seo")
+}
+
+

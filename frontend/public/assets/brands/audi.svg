@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 44" fill="none" class="w-auto h-8 text-foreground">
+  <!-- Audi 4 Rings -->
+  <circle cx="16" cy="22" r="10" stroke="currentColor" stroke-width="2.2"/>
+  <circle cx="28" cy="22" r="10" stroke="currentColor" stroke-width="2.2"/>
+  <circle cx="40" cy="22" r="10" stroke="currentColor" stroke-width="2.2"/>
+  <circle cx="52" cy="22" r="10" stroke="currentColor" stroke-width="2.2"/>
+  <!-- Wordmark -->
+  <text x="76" y="27" font-family="'DM Sans', system-ui, sans-serif" font-size="14" font-weight="700" letter-spacing="3" fill="currentColor">AUDI</text>
+</svg>

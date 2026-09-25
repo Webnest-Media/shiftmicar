@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 44" fill="none" class="w-auto h-8 text-foreground">
+  <!-- Porsche Crest Silhouette -->
+  <path d="M12 9L22 6L32 9V24C32 29 22 36 22 36C22 36 12 29 12 24V9Z" stroke="currentColor" stroke-width="1.8" fill="currentColor" fill-opacity="0.1"/>
+  <rect x="18" y="14" width="8" height="10" stroke="currentColor" stroke-width="1.2" fill="currentColor" fill-opacity="0.15"/>
+  <!-- Wordmark -->
+  <text x="42" y="27" font-family="'DM Sans', system-ui, sans-serif" font-size="13" font-weight="700" letter-spacing="2.5" fill="currentColor">PORSCHE</text>
+</svg>

@@ -1,0 +1,16 @@
+export const partners = [
+  { name: "Maruti Suzuki", logo: "/assets/brands/maruti.svg" },
+  { name: "Mahindra", logo: "/assets/brands/mahindra.svg" },
+  { name: "Tata Motors", logo: "/assets/brands/tata.svg" },
+  { name: "MIDHANI", logo: "/assets/brands/midhani.svg" },
+  { name: "Toyota", logo: "/assets/brands/toyota.svg" },
+  { name: "Kia", logo: "/assets/brands/kia.svg" },
+  { name: "Hyundai", logo: "/assets/brands/hyundai.svg" },
+  { name: "Honda", logo: "/assets/brands/honda.svg" },
+  { name: "Mercedes-Benz", logo: "/assets/brands/mercedes.svg" },
+  { name: "BMW", logo: "/assets/brands/bmw.svg" },
+  { name: "Audi", logo: "/assets/brands/audi.svg" },
+  { name: "Porsche", logo: "/assets/brands/porsche.svg" },
+  { name: "Ferrari", logo: "/assets/brands/ferrari.svg" },
+  { name: "Lamborghini", logo: "/assets/brands/lamborghini.svg" },
+] as const;

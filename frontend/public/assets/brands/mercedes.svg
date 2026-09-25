@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 44" fill="none" class="w-auto h-8 text-foreground">
+  <!-- Mercedes Star -->
+  <circle cx="22" cy="22" r="18" stroke="currentColor" stroke-width="2.2"/>
+  <!-- Central star point up -->
+  <path d="M22 6L23.8 20.8L22 22L20.2 20.8L22 6Z" fill="currentColor"/>
+  <!-- Left star point -->
+  <path d="M8 29.5L20.8 21.2L22 22L21.2 23.8L8 29.5Z" fill="currentColor"/>
+  <!-- Right star point -->
+  <path d="M36 29.5L22.8 23.8L22 22L23.2 21.2L36 29.5Z" fill="currentColor"/>
+  <!-- Wordmark -->
+  <text x="48" y="27" font-family="'DM Sans', system-ui, sans-serif" font-size="13" font-weight="600" letter-spacing="2" fill="currentColor">MERCEDES</text>
+</svg>

@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 44" fill="none" class="w-auto h-8 text-foreground">
+  <!-- Hyundai Oval Emblem -->
+  <g transform="translate(6, 8) scale(0.9)">
+    <!-- Slanted Oval -->
+    <ellipse cx="18" cy="16" rx="16" ry="12" stroke="currentColor" stroke-width="2.2" transform="rotate(-8 18 16)" fill="none"/>
+    <!-- Slanted H -->
+    <path d="M10 23L12 8H14.5L13 14.5H22.5L24 8H26.5L24.5 23H22L23.3 16.5H13.8L12.5 23H10Z" fill="currentColor"/>
+  </g>
+  <!-- Wordmark -->
+  <text x="46" y="27" font-family="'DM Sans', system-ui, -apple-system, sans-serif" font-size="13" font-weight="700" letter-spacing="2" fill="currentColor">HYUNDAI</text>
+</svg>

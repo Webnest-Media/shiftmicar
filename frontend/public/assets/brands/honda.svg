@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 44" fill="none" class="w-auto h-8 text-foreground">
+  <!-- Honda Trapezoid H Emblem -->
+  <g transform="translate(6, 7) scale(0.9)">
+    <path d="M4 3H30L27 27H7L4 3Z" stroke="currentColor" stroke-width="2" fill="none" rx="2"/>
+    <!-- Central H -->
+    <path d="M9 7L11 23H13.5L14 16H20L20.5 23H23L25 7H22.5L22 13.5H16L15.5 7H9Z" fill="currentColor"/>
+  </g>
+  <!-- Wordmark -->
+  <text x="44" y="27" font-family="'DM Sans', system-ui, -apple-system, sans-serif" font-size="14" font-weight="700" letter-spacing="3" fill="currentColor">HONDA</text>
+</svg>

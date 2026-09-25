@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 44" fill="none" class="w-auto h-8 text-foreground">
+  <!-- Mahindra Twin Peaks Emblem -->
+  <g transform="translate(6, 8) scale(0.95)">
+    <!-- Left Wing/Peak -->
+    <path d="M4 26C8 18 13 8 19 3C16 11 15 18 18 25C15 25 9 26 4 26Z" fill="currentColor"/>
+    <!-- Right Wing/Peak -->
+    <path d="M34 26C30 18 25 8 19 3C22 11 23 18 20 25C23 25 29 26 34 26Z" fill="currentColor"/>
+    <!-- Center connecting arch -->
+    <path d="M14 26C16 22 18 19 19 18C20 19 22 22 24 26H14Z" fill="currentColor"/>
+  </g>
+  <!-- Wordmark -->
+  <text x="46" y="27" font-family="'DM Sans', system-ui, -apple-system, sans-serif" font-size="12.5" font-weight="700" letter-spacing="2.2" fill="currentColor">MAHINDRA</text>
+</svg>

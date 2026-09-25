@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 44" fill="none" class="w-auto h-8 text-foreground">
+  <!-- MIDHANI Emblem: Atomic Orbit / Metal Alloy Ring -->
+  <g transform="translate(6, 6) scale(0.9)">
+    <!-- Outer ring with orbital notch -->
+    <circle cx="18" cy="18" r="16" stroke="currentColor" stroke-width="2.2" fill="none"/>
+    <!-- Inner orbital ellipse -->
+    <ellipse cx="18" cy="18" rx="14" ry="7" stroke="currentColor" stroke-width="1.8" transform="rotate(45 18 18)" fill="none"/>
+    <!-- Central core atom / crucible nucleus -->
+    <circle cx="18" cy="18" r="4.5" fill="currentColor"/>
+  </g>
+  <!-- Wordmark -->
+  <text x="44" y="21" font-family="'DM Sans', system-ui, -apple-system, sans-serif" font-size="12.5" font-weight="800" letter-spacing="2.2" fill="currentColor">MIDHANI</text>
+  <!-- Sub-label -->
+  <text x="44" y="32" font-family="'DM Sans', system-ui, -apple-system, sans-serif" font-size="8.5" font-weight="600" letter-spacing="1.2" opacity="0.8" fill="currentColor">GOVT. OF INDIA PSU</text>
+</svg>

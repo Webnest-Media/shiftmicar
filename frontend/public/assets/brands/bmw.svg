@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 44" fill="none" class="w-auto h-8 text-foreground">
+  <!-- BMW Outer Circle -->
+  <circle cx="22" cy="22" r="18" stroke="currentColor" stroke-width="2"/>
+  <circle cx="22" cy="22" r="12" stroke="currentColor" stroke-width="1.5"/>
+  <!-- Quadrants -->
+  <path d="M22 10V22H34C34 15.4 28.6 10 22 10Z" fill="currentColor"/>
+  <path d="M22 22V34C15.4 34 10 28.6 10 22H22Z" fill="currentColor"/>
+  <!-- Wordmark -->
+  <text x="50" y="27" font-family="'DM Sans', system-ui, sans-serif" font-size="14" font-weight="700" letter-spacing="3" fill="currentColor">BMW</text>
+</svg>
