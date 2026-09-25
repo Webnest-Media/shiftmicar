@@ -17,6 +17,8 @@ const envSchema = z.object({
   DIRECT_URL: z.string().optional(),
   JWT_SECRET: z.string().min(16).default("shiftmycar-secure-default-jwt-secret-key-32chars"),
   JWT_EXPIRES_IN: z.string().default("7d"),
+  ADMIN_EMAIL: z.string().email().default("admin@shiftmycar.com"),
+  ADMIN_PASSWORD: z.string().min(8).default("ChangeMe123!"),
   FRONTEND_URL: z.string().default("http://localhost:3000").transform((v) => normalizeUrl(v, "http://localhost:3000")),
   API_URL: z.string().default("http://localhost:4000").transform((v) => normalizeUrl(v, "http://localhost:4000")),
   UPLOAD_DIR: z.string().default("uploads"),

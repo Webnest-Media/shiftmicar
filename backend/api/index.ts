@@ -1,8 +1,11 @@
 import type { Request, Response } from "express";
 import { createApp } from "../src/app.js";
+import { env } from "../src/config/env.js";
+import { ensureAdminUser } from "../src/services/auth.service.js";
 
 let app: any = null;
 let initError: Error | null = null;
+let adminReady: Promise<void> | null = null;
 
 try {
   app = createApp();
@@ -11,7 +14,26 @@ try {
   console.error("Failed to initialize ShiftMyCar Express app on Vercel:", initError);
 }
 
-export default function handler(req: Request, res: Response) {
+function ensureAdmin() {
+  if (!env.IS_DB_CONFIGURED || !env.ADMIN_EMAIL || !env.ADMIN_PASSWORD) {
+    return Promise.resolve();
+  }
+  if (!adminReady) {
+    adminReady = ensureAdminUser({
+      name: "Admin",
+      email: env.ADMIN_EMAIL,
+      password: env.ADMIN_PASSWORD,
+    })
+      .then(() => undefined)
+      .catch((error) => {
+        adminReady = null;
+        console.error("Admin bootstrap failed", error);
+      });
+  }
+  return adminReady;
+}
+
+export default async function handler(req: Request, res: Response) {
   if (initError || !app) {
     return res.status(500).json({
       success: false,
@@ -27,5 +49,6 @@ export default function handler(req: Request, res: Response) {
     req.url = matched;
   }
 
+  await ensureAdmin();
   return app(req, res);
 }

@@ -64,18 +64,28 @@ export async function ensureAdminUser(input: {
   email: string;
   password: string;
 }) {
-  const existing = await prisma.user.findUnique({
-    where: { email: input.email.toLowerCase() },
-  });
+  const email = input.email.toLowerCase();
+  const existing = await prisma.user.findUnique({ where: { email } });
 
   if (existing) {
-    return existing;
+    const valid = await verifyPassword(input.password, existing.passwordHash);
+    if (valid && existing.role === "ADMIN" && existing.name === input.name) {
+      return existing;
+    }
+    return prisma.user.update({
+      where: { email },
+      data: {
+        name: input.name,
+        role: "ADMIN",
+        passwordHash: valid ? existing.passwordHash : await hashPassword(input.password),
+      },
+    });
   }
 
   return prisma.user.create({
     data: {
       name: input.name,
-      email: input.email.toLowerCase(),
+      email,
       passwordHash: await hashPassword(input.password),
       role: "ADMIN",
     },
