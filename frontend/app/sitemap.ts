@@ -2,6 +2,8 @@ import type { MetadataRoute } from "next";
 import { fetchPublicBlogs } from "@/lib/api";
 import { getSiteUrl } from "@/lib/site-url";
 
+export const dynamic = "force-static";
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const site = getSiteUrl();
   const staticRoutes: MetadataRoute.Sitemap = [

@@ -4,6 +4,7 @@ const nextConfig: NextConfig = {
   output: "export",
   images: {
     unoptimized: true,
+    qualities: [75, 90],
     remotePatterns: [
       {
         protocol: "http",
@@ -24,6 +25,11 @@ const nextConfig: NextConfig = {
       {
         protocol: "https",
         hostname: "**.onrender.com",
+        pathname: "/uploads/**",
+      },
+      {
+        protocol: "https",
+        hostname: "shiftmicar.vercel.app",
         pathname: "/uploads/**",
       },
       // ✅ Production backend – update to your actual API domain

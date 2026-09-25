@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { DM_Sans } from "next/font/google";
-import Script from "next/script";
 import { RootShell } from "@/components/layout/root-shell";
 import "./globals.css";
 
@@ -29,8 +28,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${dmSans.variable} h-full antialiased`}>
-      {/* Load runtime env BEFORE any client JS so window.__ENV__ is always set */}
-      <Script src="/env.js" strategy="beforeInteractive" />
+      <head>
+        <script src="/env.js" />
+      </head>
       <body className="min-h-full bg-background text-foreground">
         <RootShell>{children}</RootShell>
       </body>

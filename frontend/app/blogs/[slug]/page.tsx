@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound, permanentRedirect } from "next/navigation";
 import { BlogArticlePage } from "@/app/(pages)/blogs/blog-article-page";
-import { fetchPublicBlog, fetchRedirect } from "@/lib/api";
+import { fetchPublicBlog, fetchRedirect, fetchPublishedBlogUrls } from "@/lib/api";
 import { asFaqItems, sanitizeBlogHtml } from "@/lib/sanitize-blog-html";
 import { blogCanonicalUrl, getSiteUrl } from "@/lib/site-url";
 import { buildBlogJsonLd } from "@/lib/blog-jsonld";
@@ -11,7 +11,19 @@ type PageProps = {
 };
 
 export const revalidate = 60;
-export const dynamicParams = true;
+export const dynamicParams = false;
+
+export async function generateStaticParams() {
+  try {
+    const blogs = await fetchPublishedBlogUrls();
+    if (blogs && blogs.length > 0) {
+      return blogs.map((b) => ({ slug: b.slug }));
+    }
+  } catch {
+    // offline or static build fallback
+  }
+  return [{ slug: "welcome" }];
+}
 
 export async function generateMetadata({
   params,

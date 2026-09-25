@@ -8,27 +8,12 @@ export const metadata: Metadata = {
     "Insights on premium car transportation, vehicle logistics, and moving cars across India.",
 };
 
-export const revalidate = 60;
+import { Suspense } from "react";
 
-type SearchParams = Promise<{
-  page?: string;
-  category?: string;
-  search?: string;
-  tag?: string;
-}>;
+export const dynamic = "force-static";
 
-export default async function BlogsRoute({
-  searchParams,
-}: {
-  searchParams: SearchParams;
-}) {
-  const params = await searchParams;
-  const query = new URLSearchParams();
-  query.set("page", params.page || "1");
-  query.set("limit", "10");
-  if (params.category) query.set("category", params.category);
-  if (params.search) query.set("search", params.search);
-  if (params.tag) query.set("tag", params.tag);
+export default async function BlogsRoute() {
+  const query = new URLSearchParams({ page: "1", limit: "10" });
 
   let blogs: Awaited<ReturnType<typeof fetchPublicBlogs>> | null = null;
   let categories: Awaited<ReturnType<typeof fetchPublicCategories>> = [];
@@ -44,13 +29,12 @@ export default async function BlogsRoute({
   }
 
   return (
-    <BlogsPage
-      blogs={blogs}
-      categories={categories}
-      category={params.category}
-      tag={params.tag}
-      search={params.search}
-      loadError={loadError}
-    />
+    <Suspense fallback={<div className="p-12 text-center text-zinc-400">Loading blogs...</div>}>
+      <BlogsPage
+        blogs={blogs}
+        categories={categories}
+        loadError={loadError}
+      />
+    </Suspense>
   );
 }
