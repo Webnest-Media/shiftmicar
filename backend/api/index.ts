@@ -1,10 +1,10 @@
 import type { Request, Response } from "express";
+import { createApp } from "../src/app.js";
 
 let app: any = null;
 let initError: Error | null = null;
 
 try {
-  const { createApp } = await import("../src/app.js");
   app = createApp();
 } catch (error) {
   initError = error instanceof Error ? error : new Error(String(error));
