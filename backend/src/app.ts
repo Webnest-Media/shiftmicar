@@ -21,8 +21,9 @@ import publicRoutes from "./routes/public.routes.js";
 export function createApp() {
   const app = express();
 
+  const helmetFn = (typeof helmet === "function" ? helmet : (helmet as any)?.default || helmet) as any;
   app.use(
-    helmet({
+    helmetFn({
       crossOriginResourcePolicy: { policy: "cross-origin" },
     }),
   );
