@@ -47,8 +47,24 @@ export function createApp() {
   app.use(cookieParser());
   app.use("/uploads", express.static(path.resolve(env.UPLOAD_DIR)));
 
+  app.get(["/", "/api"], (_req, res) => {
+    res.json({
+      success: true,
+      message: "Shift My Car API is live",
+      status: "ok",
+      database: env.IS_DB_CONFIGURED,
+      timestamp: new Date().toISOString(),
+    });
+  });
+
   app.get("/health", (_req, res) => {
-    res.json({ success: true, data: { status: "ok" } });
+    res.json({
+      success: true,
+      data: {
+        status: "ok",
+        database: env.IS_DB_CONFIGURED,
+      },
+    });
   });
 
   app.use("/api/auth", authRoutes);

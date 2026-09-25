@@ -6,9 +6,14 @@ import * as mediaController from "../controllers/media.controller.js";
 import { authenticate, authorize } from "../middleware/auth.js";
 import { env } from "../config/env.js";
 
-const uploadRoot = path.resolve(env.UPLOAD_DIR);
-if (!fs.existsSync(uploadRoot)) {
-  fs.mkdirSync(uploadRoot, { recursive: true });
+const isServerless = Boolean(process.env.VERCEL || process.env.AWS_LAMBDA_FUNCTION_NAME);
+const uploadRoot = isServerless ? path.resolve("/tmp", env.UPLOAD_DIR) : path.resolve(env.UPLOAD_DIR);
+try {
+  if (!fs.existsSync(uploadRoot)) {
+    fs.mkdirSync(uploadRoot, { recursive: true });
+  }
+} catch (error) {
+  console.warn("Upload directory could not be created (e.g. read-only filesystem in serverless):", error);
 }
 
 const storage = multer.diskStorage({
