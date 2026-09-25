@@ -7,7 +7,9 @@ import rateLimit from "express-rate-limit";
 
 const router = Router();
 
-const loginLimiter = rateLimit({
+const limiterFn = (typeof rateLimit === "function" ? rateLimit : (rateLimit as any)?.default || rateLimit) as any;
+
+const loginLimiter = limiterFn({
   windowMs: 15 * 60 * 1000,
   max: 20,
   standardHeaders: true,

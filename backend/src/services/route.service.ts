@@ -1,10 +1,10 @@
-import slugify from "slugify";
 import { prisma } from "../config/prisma.js";
 import { AppError } from "../utils/app-error.js";
 import { analyzeSeo } from "../utils/seo-analysis.js";
+import { slugify } from "../utils/slug.js";
 
 function makeSlug(value: string) {
-  return slugify(value, { lower: true, strict: true, trim: true });
+  return slugify(value);
 }
 
 export async function listRoutesAdmin() {

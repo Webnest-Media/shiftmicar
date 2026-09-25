@@ -1,7 +1,8 @@
 import slugifyLib from "slugify";
 
 export function slugify(value: string) {
-  return slugifyLib(value, {
+  const fn = (typeof slugifyLib === "function" ? slugifyLib : (slugifyLib as any)?.default || slugifyLib) as any;
+  return fn(value, {
     lower: true,
     strict: true,
     trim: true,
