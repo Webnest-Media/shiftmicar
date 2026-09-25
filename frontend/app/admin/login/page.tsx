@@ -67,21 +67,6 @@ export default function AdminLoginPage() {
           <button type="submit" disabled={loading} className={adminBtnPrimary}>
             {loading ? "Signing in…" : "Sign in"}
           </button>
-          <div className="mt-4 border-t border-border-muted pt-3 text-center">
-            <p className="text-body-xs opacity-75 text-xs text-muted-foreground">
-              Default Admin: <strong className="font-mono">admin@shiftmycar.com</strong> / <strong className="font-mono">ChangeMe123!</strong>
-            </p>
-            <button
-              type="button"
-              onClick={() => {
-                setEmail("admin@shiftmycar.com");
-                setPassword("ChangeMe123!");
-              }}
-              className="mt-1 text-xs text-primary underline underline-offset-2 hover:opacity-80"
-            >
-              Click here to auto-fill credentials
-            </button>
-          </div>
         </form>
       </div>
     </div>
